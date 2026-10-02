@@ -1,0 +1,26 @@
+space: {{rmdm_model_space}}  # Reference the variable in config.dev.YAML
+externalId: EquipmentType
+name: RM Equipment Type
+description: Container for physical equipment type used in operations and maintenance.
+#
+properties:
+#
+  class:
+    type:
+      list: false
+      type: direct
+    immutable: false
+    directRelation: true
+    nullable: true
+    autoIncrement: false
+    name: Class
+    description: Specifies the class of the equipment.
+#
+constraints:
+  cdf_cdm_CogniteEquipmentType:
+    require:
+      space: cdf_cdm
+      externalId: CogniteEquipmentType
+      type: container
+    constraintType: requires
+#

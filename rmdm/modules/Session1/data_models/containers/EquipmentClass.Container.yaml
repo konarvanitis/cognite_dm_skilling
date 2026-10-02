@@ -1,0 +1,56 @@
+space: {{rmdm_model_space}}  # Reference the variable in config.dev.YAML
+externalId: EquipmentClass
+name: RM Equipment Class
+description: Container for physical equipment used in operations and maintenance.
+#
+properties:
+  # Property 1
+  code:
+    type: 
+      list: false
+      collation: ucs_basic
+      type: text
+    immutable: false
+    nullable: true
+    autoIncrement: false
+    name: Code
+    description: A unique identifier for the class of asset.
+  #
+  # Property 2
+  standard:
+    type: 
+      list: false
+      collation: ucs_basic
+      type: text
+    immutable: false
+    nullable: true
+    autoIncrement: false
+    name: Standard
+    description: A text string to specify which standard the class is from.
+  #
+  # Property 3
+  failureModes:
+      type:
+        list: true
+        type: direct
+      nullable: true
+      immutable: false 
+      directRelation: true
+      autoIncrement: false
+      name: Failure Modes
+      description: The distinct ways in which an asset or component can fail.
+#  
+constraints:
+  cdf_cdm_CogniteDescribable:
+    require:
+      space: cdf_cdm
+      externalId: CogniteDescribable
+      type: container
+    constraintType: requires
+  #
+  uniqueCodeConstraint:
+    properties:
+    - code
+    - standard
+    constraintType: uniqueness
+#
