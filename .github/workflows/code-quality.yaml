@@ -1,0 +1,34 @@
+name: Code Quality checks for PRs
+
+on:
+  pull_request:
+
+jobs:
+  checks:
+    name: Pre-Commit checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.11'
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Run linting
+        run: |
+          uv run pre-commit run --all-files
+
+      - name: Check notebooks are stripped
+        run: |
+          git ls-files -z '*.ipynb' | xargs -0 uv run nbstripout --verify \
+            --extra-keys "metadata.kernelspec metadata.language_info.version metadata.vscode" \
+            || { echo "Notebooks contain outputs/kernel metadata. Do the 'clean notebook diffs' setup from the README, then run: git add --renormalize ."; exit 1; }
+
+      - name: Check lockfile is up to date
+        run: uv lock --check

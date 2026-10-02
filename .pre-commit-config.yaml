@@ -1,3 +1,6 @@
+default_language_version:
+  python: python3.11
+
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
@@ -15,7 +18,7 @@ repos:
       - id: check-json
       - id: pretty-format-json
         args: [ '--autofix' ]
-        exclude: '^package-lock.json$|^reactapp/package-lock.json$'
+        exclude: '^package-lock.json$|^reactapp/package-lock.json$|\.ipynb$'
       - id: check-merge-conflict
       - id: check-case-conflict
       - id: check-docstring-first

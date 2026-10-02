@@ -1,67 +1,75 @@
-[tool.poetry]
+[project]
 name = "cognite_dm_skilling"
 version = "0.1.0"
 description = "Toolkit project for data modelling upskiling workshop"
-authors = ["Maciej Marciniak <maciej.marciniak@cognite.com>"]
-packages = [{include = "src"}]
+authors = [{ name = "Maciej Marciniak", email = "maciej.marciniak@cognite.com" }]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    # Cognite ecosystem
+    "cognite-sdk",
+    "cognite-toolkit==0.6.87",
+    "cognite-pygen",
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.14"
+    # Data Engineering essentials
+    "pandas",
+    "numpy",
+    "openpyxl",
+    "orjson",
 
-# Cognite ecosystem
-cognite-sdk = "*"
-cognite-toolkit = "0.6.87"
-cognite-pygen = "*"
+    # Developer tools
+    "python-dotenv",
+    "pydantic",
+    "pydantic-settings",
+    "typer",
+    "arrow",
+    "requests",
+    "httpx",
 
-# Data Engineering essentials
-pandas = "*"
-numpy = "*"
-openpyxl = "*"
-orjson = "*"
+    # Visualization & App building
+    "matplotlib",
+    "seaborn",
+    "plotly",
 
-# Developer tools
-python-dotenv = "*"
-pydantic = "*"
-pydantic-settings = "*"
-typer = "*"
-arrow = "*"
-requests = "*"
-httpx = "*"
+    # Streamlit
+    "streamlit",
 
-# Visualization & App building
-matplotlib = "*"
-seaborn = "*"
-plotly = "*"
+    # Retry / Resilience
+    "tenacity",
 
-# Streamlit
-streamlit = "*"
+    # ML / AI Essentials
+    "scikit-learn",
+    "xgboost",
+    "tqdm",
+    "joblib",
 
-# Retry / Resilience
-tenacity = "*"
+    # Optional cache handling (useful for APIs)
+    "cachetools",
+    "fastapi>=0.116.1,<0.117",
+    "uvicorn>=0.35.0,<0.36",
+]
 
-# ML / AI Essentials
-scikit-learn = "*"
-xgboost = "*"
-tqdm = "*"
-joblib = "*"
+[tool.uv]
+package = false
 
-# Optional cache handling (useful for APIs)
-cachetools = "*"
-fastapi = "^0.116.1"
-uvicorn = "^0.35.0"
+[dependency-groups]
+dev = [
+    "pre-commit",
+    "ruff",
+    "pytest",
+    "pytest-cov",
+    "faker",
+    "mypy",
+    "notebook",
+    "ipykernel",
+    "types-requests",
+    "types-python-dateutil",
+    "types-pyyaml",
+    "nbstripout>=0.9.1",
+]
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "*"
-ruff = "*"
-pytest = "*"
-pytest-cov = "*"
-faker = "*"
-mypy = "*"
-notebook = "*"
-ipykernel = "*"
-types-requests = "*"
-types-python-dateutil = "*"
-types-pyyaml = "*"
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
 
 [tool.isort]
 profile = "black"
@@ -76,7 +84,3 @@ unfixable = []
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]  # Allow 'assert' in tests
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
